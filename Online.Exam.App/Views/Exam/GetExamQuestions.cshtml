@@ -1,0 +1,149 @@
+﻿@model ExamQuestion
+@{
+    ViewData["Title"] = "GetExamQuestions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var random = new Random();
+    int i = random.Next(1, 6);
+}
+<link href="~/css/question.css" rel="stylesheet" />
+
+<div class="question-container">
+
+    <p class="question"> SORU: @Model.Question </p>
+    <hr>
+    @if (i == 1)
+    {
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option1">
+            <label>@Model.Option1</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option2">
+            <label>@Model.Option2</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option3">
+            <label>@Model.Option3</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option4">
+            <label>@Model.Option4</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Answer">
+            <label>@Model.Answer</label>
+        </div>
+    }
+    @if (i == 2)
+    {
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option1">
+            <label>@Model.Option1</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option2">
+            <label>@Model.Option2</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Answer">
+            <label>@Model.Answer</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option3">
+            <label>@Model.Option3</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option4">
+            <label>@Model.Option4</label>
+        </div>
+
+    }
+    @if (i == 3)
+    {
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Answer">
+            <label>@Model.Answer</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option1">
+            <label>@Model.Option1</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option2">
+            <label>@Model.Option2</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option3">
+            <label>@Model.Option3</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option4">
+            <label>@Model.Option4</label>
+        </div>
+
+    }
+    @if (i == 4)
+    {
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option1">
+            <label>@Model.Option1</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option2">
+            <label>@Model.Option2</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option3">
+            <label>@Model.Option3</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Answer">
+            <label>@Model.Answer</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option4">
+            <label>@Model.Option4</label>
+        </div>
+    }
+    @if (i == 5)
+    {
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option1">
+            <label>@Model.Option1</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Answer">
+            <label>@Model.Answer</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option2">
+            <label>@Model.Option2</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option3">
+            <label>@Model.Option3</label>
+        </div>
+        <div class="option">
+            <input type="radio" class="radio" name="option" value="@Model.Option4">
+            <label>@Model.Option4</label>
+        </div>
+    }
+    <br>
+    <div class="buttons">
+        <a class="btn-q q-prev" href=""> Önceki Soru</a>
+        <a class="btn-q q-next" href=""> Sonraki Soru</a>
+        <a id="finish" class="btn-q finish" href=""> Sınavı Bitir</a>
+    </div>
+</div>
+
+<script>
+
+    const examId = @Html.Raw(Json.Serialize(ViewBag.ExamId))
+    localStorage.setItem('examId', examId )
+
+    const questionCount = @Html.Raw(Json.Serialize(ViewBag.ExamQuestionCount))
+    localStorage.setItem('questionCount', questionCount)
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="~/js/question.js"></script>

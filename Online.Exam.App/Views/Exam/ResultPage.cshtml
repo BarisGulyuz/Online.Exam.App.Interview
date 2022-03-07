@@ -1,0 +1,49 @@
+﻿@model ResultPageVM
+@{
+    ViewData["Title"] = "ResultPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .result-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background-color: #fff;
+        box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+        padding: 50px 70px;
+    }
+
+    p {
+        font-size: 17px;
+    }
+
+    h3 i:nth-child(1){
+        margin-right: 10px;
+    }
+    h3 i:nth-child(2){
+        margin-left: 10px;
+    }
+</style>
+
+<div class="result-container">
+
+    <div class="text-center">
+        @if (Model.SuccessStatus)
+        {
+            <h3><i class="fas fa-trophy"></i> Sayın @User.Identity.Name TEBRİKLER! <i class="fas fa-trophy"></i></h3>
+            <h4>Sınav Sonucunuz : <span style="color: #019267">@Model.Point</span></h4>
+        }
+        else
+        {
+            <h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> @User.Identity.Name ÜZGÜNÜZ! <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></h3>
+            <h4>Sınav Sonucunuz : <span style="color: #FF1818">@Model.Point</span></h4>
+        }
+
+        <p class="mt-1">@Model.Message</p>
+        <a asp-controller="Exam" asp-action="Index" class="btn btn-warning mt-2"><i class="fas fa-home"></i> Anasayfa Dön</a>
+    </div>
+
+
+</div>
+

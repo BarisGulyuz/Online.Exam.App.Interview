@@ -1,0 +1,50 @@
+﻿@model Online.Exam.App.Entites.DTOs.UserLoginDto
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background-color: #f3f2ef;
+    }
+
+    .card {
+        width: 600px !important;
+        margin-top: 300px;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="text-center">Giriş Yap</h5>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Account" asp-action="Login" method="post">
+                <div class="form-group">
+                    <input type="email" class="form-control" asp-for="Email" placeholder="Mail Adresi" />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" asp-for="Password" placeholder="Şifre" />
+                </div>
+                <div class="form-check mb-2 ml-1 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1">
+                        Beni Hatırla
+                    </label>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <button class="btn btn-success w-100">Giriş Yap <i class="fa-solid fa-arrow-right-long"></i></button>
+                        </div>
+                        <div class="col-12">
+                            <a asp-controller="Account" asp-action="Register" class="btn btn-primary w-100">Kayıt Ol <i class="fa-solid fa-user"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

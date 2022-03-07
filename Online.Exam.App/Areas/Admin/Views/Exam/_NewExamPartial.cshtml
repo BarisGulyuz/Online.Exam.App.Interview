@@ -1,0 +1,57 @@
+﻿@model Exams
+
+<div id="new-exam-card" class="card">
+    <div class="card-header">
+        <h5 class="text-center"> <i class="fas fa-plus"></i> New Exam </h5>
+    </div>
+    <div class="card-header">
+        <button id="new-exam-close" class="btn btn-primary"> <i class="fa-solid fa-table"></i> Tabloya Dön</button>
+    </div>
+    <div class="card-body">
+        <form id="exam-form" asp-area="Admin" asp-controller="Question" asp-action="Add">
+            <div class="form-group mb-2">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Kategori Adı</span>
+                    </div>
+                    <select asp-items="@ViewBag.Categories" type="text" class="form-control" asp-for="CategoryId"></select>
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Sınav Adı</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="Name">
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Açıklama</span>
+                    </div>
+                    <input style="height:150px" type="text" class="form-control" asp-for="Description">
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <div class="input-group mb-3 ">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Sınav Süresi (Dk)</span>
+                    </div>
+                    <input type="number" class="form-control" asp-for="ExamDuration">
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Başarı Skoru</span>
+                    </div>
+                    <input type="number" class="form-control" asp-for="AchievementScore">
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <button id="btnSave" class="btn btn-primary w-100"> <i class="fas fa-save"></i> Save</button>
+            </div>
+        </form>
+    </div>
+</div>

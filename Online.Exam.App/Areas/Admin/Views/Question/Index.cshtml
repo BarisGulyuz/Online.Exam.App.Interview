@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .btn-accordion{
+        color:black;
+        font-weight: 600;
+        letter-spacing: 0.1rem;
+    }
+    .btn-accordion:hover,
+    .btn-accordion:focus{
+       text-decoration: none !important;
+    }
+</style>
+
+<div class="accordion mt-5" id="accordionExample">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h1  class="mb-0 text-center">
+                <button class="btn btn-link btn-block text-left text-center btn-accordion" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="fas fa-plus"></i> YENİ SORU EKLE
+                </button>
+            </h1>
+        </div>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <div class="mt-5 d-block">
+                    @await Html.PartialAsync("_NewQuestionPartial")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="questions" class="card mt-5">
+    <div class="card-header">
+        <h5 class="text-center"> @ViewBag.ExamName Sınavı Soruları </h5>
+    </div>
+    <div class="card-body">
+        <table id="question-table" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="color:blue">SORU</th>
+                    <th>Seçenek 1</th>
+                    <th>Seçenek 2</th>
+                    <th>Seçenek 3</th>
+                    <th>Seçenek 4</th>
+                    <th>Seçenek 5 (Cevap)</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section script {
+    <script>
+        let id = @Html.Raw(Json.Serialize(ViewBag.ExamId));
+        $(document).ready(function () {
+            getAll(id)
+        })
+
+        $('#type-select').change(() => {
+            $('#options').fadeToggle()
+        })
+
+        const getAll = (id) => {
+            $.ajax({
+                type: 'GET',
+                url: '/Admin/Question/GetQuestions/' + id,
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    let tr = ``
+                    $.each(data, (key, value) => {
+                        tr += `
+                                <tr>
+                                                    <td>${value.question}</td>
+                                                    <td>${value.option1}</td>
+                                                    <td>${value.option2}</td>
+                                                    <td>${value.option3}</td>
+                                                    <td>${value.option4}</td>
+                                                    <td><span class="badge badge-success">${value.answer}</span></td>
+                               </tr>`
+                        $('#question-table tbody').html(tr)
+                    })
+                }
+            })
+        }
+
+
+        $(document).on('click', '#btnSave', function (e) {
+            e.preventDefault()
+            const form = $('#question-form')
+            const data = form.serialize()
+            const actionUrl = '/Admin/Question/Add'
+            $.post(actionUrl, data).done(() => {
+                getAll(id)
+                $(this).closest('form').find("input[type=text], textarea").val("");
+            })
+        })
+
+
+    </script>
+}
+

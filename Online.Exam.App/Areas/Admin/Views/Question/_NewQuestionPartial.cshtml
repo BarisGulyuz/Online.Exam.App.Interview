@@ -1,0 +1,76 @@
+﻿@model ExamQuestion
+
+
+    <div class="card">
+        <div class="card-body">
+            <form id="question-form" asp-area="Admin" asp-controller="Question" asp-action="Add">
+                <input type="hidden" asp-for="ExamId" value="@ViewBag.ExamId" />
+                <div class="form-group mb-2">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Soru Tipi</span>
+                        </div>
+                        <select id="type-select" asp-items="@ViewBag.Types" type="text" class="form-control" asp-for="QuestionTypeId"></select>
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Soru</span>
+                        </div>
+                        <input id="answer" type="text" class="form-control" asp-for="Question" />
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Cevap</span>
+                        </div>
+                        <input id="answer" type="text" class="form-control" asp-for="Answer" />
+                    </div>
+                </div>
+                <div id="options">
+                    <div class="form-group mb-2">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Seçenek 1 </span>
+                            </div>
+                            <input type="text" class="form-control" asp-for="Option1" />
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Seçenek 2 </span>
+                            </div>
+                            <input type="text" class="form-control" asp-for="Option2" />
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Seçenek 3 </span>
+                            </div>
+                            <input type="text" class="form-control" asp-for="Option3" />
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Seçenek 4 </span>
+                            </div>
+                            <input type="text" class="form-control" asp-for="Option4" />
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <button id="btnSave" class="btn btn-primary w-100"> <i class="fas fa-save"></i> Kaydet</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+@section script {
+
+ 
+}

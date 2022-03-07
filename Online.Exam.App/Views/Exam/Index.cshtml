@@ -1,0 +1,90 @@
+﻿@model List<UserExamVM>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .bg-header {
+        background-color: #fff;
+        box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.3);
+        padding: 40px 20px;
+        margin: 100px;
+        font-size: larger
+    }
+
+    .container {
+        max-width: 1500px !important;
+    }
+
+    p span {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="bg-header">
+    <div class="d-flex flex-row flex-row-reverse">
+        <a asp-controller="Account" asp-action="Logout" class="btn btn-primary"> <i class="fas fa-user"></i> Çıkış Yap</a>
+    </div>
+    <h5>Hoşgeldiniz, @User.Identity.Name</h5>
+    <p>Aşağıdaki tabloyu kullanarak sınavlarınızın giriş tarihileri aktif olduklarınıda sınavlarınıza giriş sağlayabilirisiniz. <span>Sınav tarihi geldiğinde giriş butonları aktif olacaktır.</span></p>
+    <p>Başarılar Dileriz...</p>
+</div>
+<hr />
+@if (Model.Count > 0)
+{
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="text-center">Sınavlarım</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Kategori</th>
+                        <th>Sınav Adı</th>
+                        <th>Açıklama</th>
+                        <th>Sınav Süresi(Dk)</th>
+                        <th>Başarı Skoru</th>
+                        <th>Soru Sayısı</th>
+                        <th>Başlangıç Tarihi</th>
+                        <th>Bitiş Tarihi</th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><span class="badge bg-info text-white"> @item.CategoryName </span></td>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td>@item.ExamDuration</td>
+                            <td><span class="badge badge-success text-white"> @item.AchievementScore </span></td>
+                            <td>@item.QuestionCount</td>
+                            <td>@item.StartDate</td>
+                            <td>@item.EndDate</td>
+                            <td>
+                                @if (item.StartDate <= DateTime.Now && DateTime.Now <= item.EndDate)
+                                {
+                                    <a asp-controller="Exam" asp-action="GetExamQuestions" asp-route-examId="@item.Id" asp-route-questionNumber="0" class="btn btn-primary  text-white">Sınava Gir</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container mt-5">
+        <div class="alert alert-info d-flex justify-content-center align-items-center">
+            <p><strong> Sayın, @User.Identity.Name henüz tarafınıza atanmış bir sınav bulunmamaktadır. </strong></p>
+        </div>
+    </div>
+}
+
+<script>
+
+</script>
+

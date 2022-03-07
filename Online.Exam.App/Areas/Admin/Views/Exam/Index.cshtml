@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div id="modal-div">
+
+</div>
+
+<div id="exam-table-card" class="card mt-5">
+    <div class="card-header">
+        <button id="add-exam" class="btn btn-primary"> <i class="fas fa-plus"></i> Yeni Sınav Ekle</button>
+    </div>
+    <div class="card-body">
+        <table id="exam-table" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th> Sınav Adı </th>
+                    <th>Kategori Adı</th>
+                    <th> Açıklama </th>
+                    <th> Sınav Süresi (Dk.) </th>
+                    <th> Başarı Puanı </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<br /><br />
+@await Html.PartialAsync("_NewExamPartial")
+
+
+
+
+@section script{
+
+    <script>
+        $(document).ready(function () {
+            getAll()
+            $('#new-exam-card').hide()
+
+           
+        })
+
+        const getAll = () => {
+            $.ajax({
+                type: 'GET',
+                url: '/Admin/Exam/GetExams',
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    let tr = ``
+                    $.each(data, (key, value) => {
+                        tr += ` <tr>
+                                          <td>${value.id}</td>
+                                          <td>${value.name}</td>
+                                          <td>${value.category.name}</td>
+                                          <td>${value.description}</td>
+                                            <td>${value.examDuration} dakika</td>
+                                            <td><span class="badge badge-success">${value.achievementScore}</span></td>
+                                                 <td>
+                                               <a class="btn btn-danger text-white" onclick="Delete(${value.id}, '${value.name}')" > <i class="fas fa-trash"></i> </a>
+                                                 <a class="btn btn-warning text-white" href="/Admin/Question/Index?examId=${value.id}"> <i class="fa-solid fa-pencil"></i>  Edit Questions  </a>
+                                                <a onclick="GetModal(${value.id})" class="btn btn-primary  text-white"> <i class="fas fa-user"></i> Sınav Ata</a>
+                                         </td>
+                              </tr>`
+                        $('#exam-table tbody').html(tr)
+                    })
+
+                }
+            })
+        }
+
+        $('#add-exam').click(() => {
+            $('#new-exam-card').fadeToggle(600)
+            $('#exam-table-card').slideToggle(600)
+        })
+
+        $('#new-exam-close').click(() => {
+            $('#new-exam-card').fadeToggle(600)
+            $('#exam-table-card').slideToggle(600)
+        })
+
+
+        $(document).on('click', '#btnSave', function (e) {
+            e.preventDefault()
+            const form = $('#exam-form')
+            const data = form.serialize()
+            const actionUrl = '/Admin/Exam/Add'
+            $.post(actionUrl, data).done(() => {
+                getAll()
+                $('#new-exam-card').fadeToggle(600)
+                $('#exam-table-card').slideToggle(600)
+            })
+        })
+
+        function Delete(id, name) {
+            Swal.fire({
+                title: 'Silmek istediğine emin misin?',
+                text: `"${name}" adlı sınav silinecektir!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet',
+                cancelButtonText: 'Hayır'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const url = `/Admin/Exam/Delete`
+                    $.post(url, { id: id }).done(() => {
+                        Swal.fire(
+                            'Silindi!',
+                            'Sınav Silindi.',
+                            'success'
+                        )
+                        getAll()
+                    })
+                }
+            })
+        }
+
+        const modalDiv = $('#modal-div')
+        function GetModal(examId) {
+            $.ajax({
+                type: 'GET',
+                url: '/Admin/Exam/AssignExamToUser',
+                data: { id: examId },
+                success: function (view) {
+                    modalDiv.html(view)
+                    modalDiv.find(".modal").modal('show')
+                }
+            })
+        }
+        modalDiv.on('click', '#btnSet', function (e) {
+            e.preventDefault()
+            const form = $('#exam-user-form')
+            const actionUrl = '/Admin/Exam/AssignExamToUser'
+            const dataToSend = form.serialize()
+            $.post(actionUrl, dataToSend).done(() => {
+                modalDiv.find(".modal").modal('hide')
+                toastr.success('Sınav Başarıyla Atandı')
+            })
+        })
+
+    </script>
+}
+
